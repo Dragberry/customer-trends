@@ -20,12 +20,24 @@
                 [data]="analysis.monthlyStats"
                 [currency]="analysis.currency">
               </app-chart>
-              <div class="row">
-                <div *ngFor="let monthData of analysis.dailyStats" class="col-6">
-                  <app-chart
-                    [data]="monthData"
-                    [currency]="analysis.currency">
-                  </app-chart>
+              <div class="card">
+                <div class="card-header">
+                  <button class="btn btn-link btn-sm"
+                    (click)="isDetailsShown = !isDetailsShown"
+                    [attr.aria-expanded]="isDetailsShown"
+                    aria-controls="details">
+                    {{isDetailsShown ? 'Hide details' : 'Show details'}}
+                  </button>
+                </div>
+                <div id="details" [collapse]="!isDetailsShown" class="card-body">
+                  <div class="row">
+                    <div *ngFor="let monthData of analysis.dailyStats" class="col-6">
+                      <app-chart
+                        [data]="monthData"
+                        [currency]="analysis.currency">
+                      </app-chart>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

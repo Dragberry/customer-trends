@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import za.co.sb.customertrends.model.AmountPerDate;
 import za.co.sb.customertrends.model.PaymentsAnalysis;
 import za.co.sb.customertrends.model.PaymentsAnalysisLongTerm;
+import za.co.sb.customertrends.model.PaymentsAnalysisStatus;
 
 /**
  * @author Maksim Drahun
@@ -33,6 +34,7 @@ public class PaymentsController {
   @GetMapping("/payments/analyze")
   public PaymentsAnalysis analyze(@RequestParam Long customerKey, @RequestParam String accountNumber) {
     PaymentsAnalysis result = new PaymentsAnalysis();
+    result.setStatus(PaymentsAnalysisStatus.ERROR);
     result.setCustomerKey(customerKey);
     result.setAccountNumber(accountNumber);
     result.setCurrency("USD");
@@ -46,6 +48,7 @@ public class PaymentsController {
   @GetMapping("/payments/analyze-long-term")
   public PaymentsAnalysisLongTerm analyzeLongTerm(@RequestParam Long customerKey, @RequestParam String accountNumber) {
     PaymentsAnalysisLongTerm result = new PaymentsAnalysisLongTerm();
+    result.setStatus(PaymentsAnalysisStatus.SUCCESS);
     result.setCustomerKey(customerKey);
     result.setAccountNumber(accountNumber);
     result.setCurrency("USD");

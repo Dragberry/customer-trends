@@ -13,6 +13,8 @@ export class ForecastForMonthsComponent extends ForecastCommonComponent<Payments
 
   customerKey: string;
 
+  isDetailsShown = false;
+
   constructor(
     protected messageService: MessagesService,
     protected paymentsService: PaymentsService) {

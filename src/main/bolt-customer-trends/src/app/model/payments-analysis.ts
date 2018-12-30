@@ -1,7 +1,6 @@
-export class PaymentsAnalysis {
-  customerKey: string;
-  accountNumber: string;
-  currency: string;
+import { AbstractPaymentsAnalysis } from './abstract-payments-analysis';
+
+export class PaymentsAnalysis extends AbstractPaymentsAnalysis {
   yearStats: { date: string, amount: string }[];
   lastMonthStats: { date: string, amount: string }[];
   previousMonthStats: { date: string, amount: string }[];

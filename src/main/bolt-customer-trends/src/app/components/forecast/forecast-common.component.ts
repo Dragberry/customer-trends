@@ -1,8 +1,10 @@
+import { PaymentsAnalysisStatus } from '../../model/payments-analysis-status';
 import { NgBlockUI, BlockUI } from 'ng-block-ui';
 import { MessagesService } from 'src/app/services/messages.service';
 import { PaymentsService } from 'src/app/services/payments.service';
+import { AbstractPaymentsAnalysis } from 'src/app/model/abstract-payments-analysis';
 
-export abstract class ForecastCommonComponent<T> {
+export abstract class ForecastCommonComponent<T extends AbstractPaymentsAnalysis> {
 
   @BlockUI('charts') blockUI: NgBlockUI;
 
@@ -20,8 +22,13 @@ export abstract class ForecastCommonComponent<T> {
     this.blockUI.start();
     this.callService(criteria)
       .then(result => {
-        this.analysis = result;
-        this.processAnalysis(result);
+        if (PaymentsAnalysisStatus.ERROR === result.status) {
+          this.analysis = null;
+          this.messageService.show('The given user has unpredictable payments statistics!');
+        } else {
+          this.analysis = result;
+          this.processAnalysis(result);
+        }
         this.blockUI.stop();
       }).catch(error => {
         this.messageService.showError(error);

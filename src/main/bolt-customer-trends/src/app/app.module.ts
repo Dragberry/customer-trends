@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BlockUIModule } from 'ng-block-ui';
 import { NgxMaskModule } from 'ngx-mask';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
@@ -27,10 +28,11 @@ import { AccountListComponent } from './components/account-list/account-list.com
     AccountListComponent
   ],
   imports: [
-    ChartsModule,
     BlockUIModule.forRoot(),
     BrowserAnimationsModule,
     BrowserModule,
+    ChartsModule,
+    CollapseModule,
     FormsModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),

@@ -1,4 +1,3 @@
-import { ChartData } from 'src/app/model/chart-data';
 import { Component } from '@angular/core';
 import { ForecastCommonComponent } from '../forecast-common.component';
 import { MessagesService } from 'src/app/services/messages.service';
@@ -11,11 +10,6 @@ import { PaymentsAnalysis } from 'src/app/model/payments-analysis';
   styleUrls: ['./forecast-for-month.component.css']
 })
 export class ForecastForMonthComponent extends ForecastCommonComponent<PaymentsAnalysis> {
-
-  yearStats: { date: string; amount: string; }[];
-  lastMonthStats: ChartData;
-  previousMonthStats: ChartData;
-  forecast: ChartData;
 
   constructor(
     protected messageService: MessagesService,

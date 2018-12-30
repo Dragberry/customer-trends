@@ -9,10 +9,6 @@
  */
 package za.co.sb.customertrends.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +17,14 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@AllArgsConstructor(staticName = "of")
-public class AmountPerMonth {
+public abstract class AbstractPaymentsAnalysis {
   
-  private Integer month;
+  private PaymentsAnalysisStatus status;
+	
+  private Long customerKey;
   
-  private BigDecimal amount;
+  private String accountNumber;
+  
+  private String currency;
 
 }

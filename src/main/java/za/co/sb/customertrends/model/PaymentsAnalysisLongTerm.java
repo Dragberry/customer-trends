@@ -18,13 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PaymentsAnalysisLongTerm {
-  
-  private Long customerKey;
-  
-  private String accountNumber;
-  
-  private String currency;
+public class PaymentsAnalysisLongTerm extends AbstractPaymentsAnalysis {
   
   private List<AmountPerDate> monthlyStats;
   
