@@ -34,7 +34,7 @@ public class PaymentsController {
   @GetMapping("/payments/analyze")
   public PaymentsAnalysis analyze(@RequestParam Long customerKey, @RequestParam String accountNumber) {
     PaymentsAnalysis result = new PaymentsAnalysis();
-    result.setStatus(PaymentsAnalysisStatus.ERROR);
+    result.setStatus(PaymentsAnalysisStatus.SUCCESS);
     result.setCustomerKey(customerKey);
     result.setAccountNumber(accountNumber);
     result.setCurrency("USD");
