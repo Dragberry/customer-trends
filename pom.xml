@@ -59,6 +59,10 @@
 	<build>
 		<resources>
 			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>static</targetPath>
+			</resource>
+			<resource>
 				<directory>target/bolt-customer-trends</directory>
 				<targetPath>static</targetPath>
 			</resource>
