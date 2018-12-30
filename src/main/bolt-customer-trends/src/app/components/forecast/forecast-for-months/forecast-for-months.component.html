@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-lg-2">
+      <app-criteria-panel
+        (submit)="analyze($event)"
+        (customerKeyChanged)="onCustomerKeyChanged($event)">
+      </app-criteria-panel>
+    </div>
+    <div *blockUI="'charts'" class="col-lg-10">
+      <div class="row">
+        <div class="col-12">
+          <app-account-list [customerKey]="customerKey"></app-account-list>
+        </div>
+        <div class="col-12" [class.d-none]='!monthlyStats'>
+          <div class="card">
+            <div class="card-header">
+              <span>Payments statistic for last 6 months</span>
+            </div>
+            <div class="card-body">
+              <app-chart [chartData]="monthlyStats"></app-chart>
+              <div class="row">
+                <div *ngFor="let monthData of dailyStats" class="col-6">
+                  <app-chart [chartData]="monthData"></app-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12" [class.d-none]='!monthlyStats'>
+          <div class="card">
+            <div class="card-header">
+              <span>Payments amount forecasting</span>
+            </div>
+            <div class="card-body">
+              <app-chart [chartData]="forecast"></app-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

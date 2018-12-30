@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    Config
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label for="customerKeyInput">Customer key</label>
+      <input id="customerKeyInput" 
+        type="text"
+        class="form-control"
+        mask="0*"
+        maxlength="10"
+        [(ngModel)]="customerKey"
+        (keyup)="onCustomerKeyChanged()">
+    </div>
+    <div class="form-group">
+      <label for="accountNumberInput">Account number</label>
+      <select id="accountNumberInput"
+        class="form-control"
+        [(ngModel)]="accountNumber">
+        <option *ngFor="let account of accountNumbers" [value]="account">
+          {{account}}
+        </option>
+      </select>
+    </div>
+    <button type="button"
+      class="btn btn-primary btn-block"
+      [disabled]="!customerKey || !accountNumber"
+      (click)="analyze()">
+      <span>Analyze</span>
+    </button>
+  </div>
+</div>
