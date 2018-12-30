@@ -1,3 +1,4 @@
+import { ChartData } from 'src/app/model/chart-data';
 import { Component } from '@angular/core';
 import { ForecastCommonComponent } from '../forecast-common.component';
 import { MessagesService } from 'src/app/services/messages.service';
@@ -11,6 +12,11 @@ import { PaymentsAnalysis } from 'src/app/model/payments-analysis';
 })
 export class ForecastForMonthComponent extends ForecastCommonComponent<PaymentsAnalysis> {
 
+  yearStats: { date: string; amount: string; }[];
+  lastMonthStats: ChartData;
+  previousMonthStats: ChartData;
+  forecast: ChartData;
+
   constructor(
     protected messageService: MessagesService,
     protected paymentsService: PaymentsService) {
@@ -22,10 +28,6 @@ export class ForecastForMonthComponent extends ForecastCommonComponent<PaymentsA
   }
 
   processAnalysis(analysis: PaymentsAnalysis): void {
-    this.yearStats = this.buildMonthlyChartData(analysis.yearStats, analysis.currency);
-    this.previousMonthStats = this.buildDailyChartData(analysis.previousMonthStats, analysis.currency);
-    this.lastMonthStats = this.buildDailyChartData(analysis.lastMonthStats, analysis.currency);
-    this.forecast = this.buildDailyChartData(analysis.forecast, analysis.currency);
     this.expenseIn3Days = this.calculateAmount(analysis.forecast, 3).toFixed(2);
     this.expenseIn7Days = this.calculateAmount(analysis.forecast, 7).toFixed(2);
     this.expenseIn14Days = this.calculateAmount(analysis.forecast, 14).toFixed(2);

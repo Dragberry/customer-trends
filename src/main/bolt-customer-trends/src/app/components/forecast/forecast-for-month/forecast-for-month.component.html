@@ -3,35 +3,44 @@
     <app-criteria-panel (submit)="analyze($event)"></app-criteria-panel>
   </div>
   <div *blockUI="'charts'" class="col-lg-10">
-    <div class="row">
-      <div class="col-12" [class.d-none]='!yearStats'>
+    <div *ngIf="analysis" class="row">
+      <div class="col-12">
         <div class="card">
           <div class="card-header">
             <span>Payments statistic for the year</span>
           </div>
           <div class="card-body">
-            <app-chart [chartData]="yearStats"></app-chart>
+            <app-chart
+              [data]="analysis.yearStats"
+              [currency]="analysis.currency">
+            </app-chart>
           </div>
         </div>
       </div>
-      <div class="col-12" [class.d-none]='!previousMonthStats && !lastMonthStats'>
+      <div class="col-12">
         <div class="card">
           <div class="card-header">
             <span>Payments statistic for the last 2 months for the choosen account</span>
           </div>
           <div class="card-body">
               <div class="row">
-                <div class="col-6" [class.d-none]='!previousMonthStats'>
-                  <app-chart [chartData]="previousMonthStats"></app-chart>
+                <div class="col-6">
+                  <app-chart
+                    [data]="analysis.previousMonthStats"
+                    [currency]="analysis.currency">
+                  </app-chart>
                 </div>
-                <div class="col-6" [class.d-none]='!lastMonthStats'>
-                  <app-chart [chartData]="lastMonthStats"></app-chart>      
+                <div class="col-6">
+                  <app-chart
+                    [data]="analysis.lastMonthStats"
+                    [currency]="analysis.currency">
+                  </app-chart>
                 </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-12" [class.d-none]='!forecast'>
+      <div class="col-12">
         <div class="card">
           <div class="card-header">
             <span>Payments amount forecasting</span>
@@ -40,13 +49,16 @@
             <div class="row">
               <div class="col-3">
                 <ul class="small">
-                  <li>Expected expense of {{expenseIn3Days}} {{predictionCurrency}} in 3 days.</li>
-                  <li>Expected expense of {{expenseIn7Days}} {{predictionCurrency}} in 7 days.</li>
-                  <li>Expected expense of {{expenseIn7Days}} {{predictionCurrency}} in 14 days.</li>
+                  <li>Expected expense of {{expenseIn3Days}} {{analysis.currency}} in 3 days.</li>
+                  <li>Expected expense of {{expenseIn7Days}} {{analysis.currency}} in 7 days.</li>
+                  <li>Expected expense of {{expenseIn14Days}} {{analysis.currency}} in 14 days.</li>
                 </ul>
               </div>
               <div class="col-6">
-                <app-chart [chartData]="forecast"></app-chart>
+                <app-chart
+                  [data]="analysis.forecast"
+                  [currency]="analysis.currency">
+                </app-chart>
               </div>
             </div>
           </div>
