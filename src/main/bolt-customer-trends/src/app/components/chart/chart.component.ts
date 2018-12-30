@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ChartData } from 'src/app/model/chart-data';
 
@@ -18,16 +18,15 @@ export class ChartComponent implements OnChanges {
   constructor() { }
 
   @Input()
-  set chartData(data: ChartData) {
-    this.data = data;
-    if (data && this.chartRef) {
-      this.buildChart(data);
-    }
-  }
+  chartData: ChartData;
 
   ngOnChanges(changes: SimpleChanges) {
-    const chartData = changes['chartData'];
-    console.log(chartData);
+    const chartDataChange: SimpleChange = changes['chartData'];
+    if (chartDataChange.currentValue) {
+      if (this.chartRef) {
+        this.buildChart(chartDataChange.currentValue);
+      }
+    }
   }
 
   buildChart(data: ChartData): void {
