@@ -19,13 +19,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PaymentsAnalysis extends AbstractPaymentsAnalysis {
+public class PaymentsAnalysis {
   
-  private List<AmountPerDate> yearStats;
-  
-  private List<AmountPerDate> previousMonthStats;
-  
-  private List<AmountPerDate> lastMonthStats;
+  private PaymentsAnalysisStatus status;
+	
+  private Long customerKey;
+	  
+  private String accountNumber;
+	  
+  private String currency;
   
   private List<AmountPerDate> forecast;
 

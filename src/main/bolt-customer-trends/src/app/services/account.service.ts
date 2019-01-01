@@ -4,6 +4,7 @@ import { AccountInfo } from '../model/account-info';
 
 const ACCOUNTS_URL = 'accounts';
 const ACCOUNTS_INFO_URL = `${ACCOUNTS_URL}/info`;
+const ACCOUNTS_CURRENCIES_URL = `${ACCOUNTS_URL}/currencies`;
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,9 @@ export class AccountService {
 
   getCustomerAccountsInfo(customerKey: string): Promise<AccountInfo[]> {
     return this.http.get<AccountInfo[]>(ACCOUNTS_INFO_URL, { params: new HttpParams().append('customerKey', customerKey) }).toPromise();
+  }
+
+  getCustomerCurrencies(customerKey: string): Promise<string[]> {
+    return this.http.get<string[]>(ACCOUNTS_CURRENCIES_URL, { params: new HttpParams().append('customerKey', customerKey) }).toPromise();
   }
 }

@@ -5,37 +5,57 @@
         (customerKeyChanged)="onCustomerKeyChanged($event)">
       </app-criteria-panel>
     </div>
-    <div *blockUI="'charts'" class="col-lg-10">
+    <div class="col-lg-10">
       <div class="row">
         <div class="col-12">
           <app-account-list [customerKey]="customerKey"></app-account-list>
         </div>
-        <div *ngIf="analysis" class="col-12">
+        <div *blockUI="'statistics'" class="col-12">
           <div class="card">
             <div class="card-header">
               <span>Payments statistic for last 6 months</span>
+              <span *ngIf="!statistics">
+                (There is no statistics for the selected currency)
+              </span>
             </div>
             <div class="card-body">
-              <app-chart
-                [data]="analysis.monthlyStats"
-                [currency]="analysis.currency">
-              </app-chart>
-              <div class="card">
-                <div class="card-header">
-                  <button class="btn btn-link btn-sm"
-                    (click)="isDetailsShown = !isDetailsShown"
-                    [attr.aria-expanded]="isDetailsShown"
-                    aria-controls="details">
-                    {{isDetailsShown ? 'Hide details' : 'Show details'}}
-                  </button>
+              <div class="row">
+                <div class="col-3">
+                  <div class="form-group">
+                    <label for="currencyInput">Currency</label>
+                    <select id="currencyInput"
+                      class="form-control"
+                      [(ngModel)]="currency"
+                      (change)="onCurrencyChanged()">
+                      <option *ngFor="let curr of currencies" [value]="curr">
+                        {{curr}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div id="details" [collapse]="!isDetailsShown" class="card-body">
-                  <div class="row">
-                    <div *ngFor="let monthData of analysis.dailyStats" class="col-6">
-                      <app-chart
-                        [data]="monthData"
-                        [currency]="analysis.currency">
-                      </app-chart>
+              </div>
+              <div class="col-12" *ngIf="statistics">
+                <app-chart
+                  [data]="statistics.monthlyStats"
+                  [currency]="statistics.currency">
+                </app-chart>
+                <div class="card">
+                  <div class="card-header">
+                    <button class="btn btn-link btn-sm"
+                      (click)="isDetailsShown = !isDetailsShown"
+                      [attr.aria-expanded]="isDetailsShown"
+                      aria-controls="details">
+                      {{isDetailsShown ? 'Hide details' : 'Show details'}}
+                    </button>
+                  </div>
+                  <div id="details" [collapse]="!isDetailsShown" class="card-body">
+                    <div class="row">
+                      <div *ngFor="let monthData of statistics.dailyStats" class="col-6">
+                        <app-chart
+                          [data]="monthData"
+                          [currency]="statistics.currency">
+                        </app-chart>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -43,16 +63,18 @@
             </div>
           </div>
         </div>
-        <div *ngIf="analysis" class="col-12">
+        <div *blockUI="'forecast'" class="col-12">
           <div class="card">
             <div class="card-header">
               <span>Payments amount forecasting</span>
             </div>
             <div class="card-body">
-              <app-chart
-                [data]="analysis.forecast"
-                [currency]="analysis.currency">
-              </app-chart>
+              <div *ngIf="analysis">
+                <app-chart
+                  [data]="analysis.forecast"
+                  [currency]="analysis.currency">
+                </app-chart>
+              </div>
             </div>
           </div>
         </div>

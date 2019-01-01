@@ -17,13 +17,9 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractPaymentsAnalysis {
+public abstract class AbstractPaymentsStatistics {
   
-  private PaymentsAnalysisStatus status;
-	
   private Long customerKey;
-  
-  private String accountNumber;
   
   private String currency;
 

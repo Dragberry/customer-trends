@@ -1,9 +1,12 @@
-<div *ngIf="accounts && accounts.length > 0" class="card">
+<div class="card">
   <div class="card-header">
     <span>Customer accounts info</span>
   </div>
   <div class="card-body">
-    <table class="table table-striped table-sm table-hover">
+    <div *ngIf="!accounts || accounts.length == 0">
+      There is no any account for the given customer key
+    </div>
+    <table *ngIf="accounts && accounts.length > 0" class="table table-striped table-sm table-hover">
       <thead class="thead-dark">
         <tr>
           <th>Account</th>

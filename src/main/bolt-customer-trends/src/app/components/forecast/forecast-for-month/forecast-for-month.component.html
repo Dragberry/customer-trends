@@ -1,52 +1,73 @@
 <div class="row">
   <div class="col-lg-2">
-    <app-criteria-panel (submit)="analyze($event)"></app-criteria-panel>
+    <app-criteria-panel
+      (submit)="analyze($event)"
+      (customerKeyChanged)="onCustomerKeyChanged($event)">
+    </app-criteria-panel>
   </div>
-  <div *blockUI="'charts'" class="col-lg-10">
-    <div *ngIf="analysis" class="row">
-      <div class="col-12">
+  <div class="col-lg-10">
+    <div class="row">
+      <div *blockUI="'statistics'" class="col-12">
         <div class="card">
           <div class="card-header">
             <span>Payments statistic for the year</span>
+            <span *ngIf="!statistics">
+              (There is no statistics for the selected currency)
+            </span>
           </div>
           <div class="card-body">
-            <app-chart
-              [data]="analysis.yearStats"
-              [currency]="analysis.currency">
-            </app-chart>
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <span>Payments statistic for the last 2 months for the choosen account</span>
-          </div>
-          <div class="card-body">
-              <div class="row">
-                <div class="col-6">
-                  <app-chart
-                    [data]="analysis.previousMonthStats"
-                    [currency]="analysis.currency">
-                  </app-chart>
+            <div class="row">
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="currencyInput">Currency</label>
+                  <select id="currencyInput"
+                    class="form-control"
+                    [(ngModel)]="currency"
+                    (change)="onCurrencyChanged()">
+                    <option *ngFor="let curr of currencies" [value]="curr">
+                      {{curr}}
+                    </option>
+                  </select>
                 </div>
-                <div class="col-6">
-                  <app-chart
-                    [data]="analysis.lastMonthStats"
-                    [currency]="analysis.currency">
-                  </app-chart>
+              </div>
+            </div>
+            <div class="col-12" *ngIf="statistics">
+              <app-chart
+                [data]="statistics.yearStats"
+                [currency]="statistics.currency">
+              </app-chart>
+              <div class="card">
+                <div class="card-header">
+                  <span>Payments statistic for the last 2 months for the choosen account</span>
                 </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <app-chart
+                        [data]="statistics.previousMonthStats"
+                        [currency]="statistics.currency">
+                      </app-chart>
+                    </div>
+                    <div class="col-6">
+                      <app-chart
+                        [data]="statistics.lastMonthStats"
+                        [currency]="statistics.currency">
+                      </app-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-12">
+      <div *blockUI="'forecast'" class="col-12">
         <div class="card">
           <div class="card-header">
             <span>Payments amount forecasting</span>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div *ngIf="analysis" class="row">
               <div class="col-3">
                 <ul class="small">
                   <li>Expected expense of {{expenseIn3Days}} {{analysis.currency}} in 3 days.</li>

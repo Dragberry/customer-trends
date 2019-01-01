@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import za.co.sb.customertrends.model.AmountPerDate;
+import za.co.sb.customertrends.model.PaymentStatistics;
+import za.co.sb.customertrends.model.PaymentStatisticsLongTerm;
 import za.co.sb.customertrends.model.PaymentsAnalysis;
-import za.co.sb.customertrends.model.PaymentsAnalysisLongTerm;
 import za.co.sb.customertrends.model.PaymentsAnalysisStatus;
 
 /**
@@ -30,6 +31,17 @@ import za.co.sb.customertrends.model.PaymentsAnalysisStatus;
  */
 @RestController
 public class PaymentsController {
+	
+  @GetMapping("/payments/statistics")
+  public PaymentStatistics statistics(@RequestParam Long customerKey, @RequestParam String currency) {
+  PaymentStatistics result = new PaymentStatistics();
+  result.setCustomerKey(customerKey);
+  result.setCurrency(currency);
+  result.setYearStats(getMonthlyStats(12));
+  result.setPreviousMonthStats(getDailyStats(Month.OCTOBER, 31));
+  result.setLastMonthStats(getDailyStats(Month.NOVEMBER, 30));
+    return result;
+  }
 
   @GetMapping("/payments/analyze")
   public PaymentsAnalysis analyze(@RequestParam Long customerKey, @RequestParam String accountNumber) {
@@ -38,29 +50,34 @@ public class PaymentsController {
     result.setCustomerKey(customerKey);
     result.setAccountNumber(accountNumber);
     result.setCurrency("USD");
-    result.setYearStats(getMonthlyStats(12));
-    result.setPreviousMonthStats(getDailyStats(Month.OCTOBER, 31));
-    result.setLastMonthStats(getDailyStats(Month.NOVEMBER, 30));
     result.setForecast(getDailyStats(Month.DECEMBER, 31));
     return result;
   }
   
+  @GetMapping("/payments/statistics-long-term")
+  public PaymentStatisticsLongTerm statisticsLongTerm(@RequestParam Long customerKey, @RequestParam String currency) {
+    PaymentStatisticsLongTerm result = new PaymentStatisticsLongTerm();
+    result.setCustomerKey(customerKey);
+    result.setCurrency(currency);
+    result.setMonthlyStats(getMonthlyStats(6, LocalDate.now().minusMonths(6)));
+    List<List<AmountPerDate>> dailyStats = new ArrayList<>();
+    dailyStats.add(getDailyStats(Month.JUNE, 30));
+	dailyStats.add(getDailyStats(Month.JULY, 31));
+	dailyStats.add(getDailyStats(Month.AUGUST, 31));
+	dailyStats.add(getDailyStats(Month.SEPTEMBER, 30));
+	dailyStats.add(getDailyStats(Month.OCTOBER, 31));
+	dailyStats.add(getDailyStats(Month.NOVEMBER, 30));
+	result.setDailyStats(dailyStats);
+	return result;
+  }
+  
   @GetMapping("/payments/analyze-long-term")
-  public PaymentsAnalysisLongTerm analyzeLongTerm(@RequestParam Long customerKey, @RequestParam String accountNumber) {
-    PaymentsAnalysisLongTerm result = new PaymentsAnalysisLongTerm();
+  public PaymentsAnalysis analyzeLongTerm(@RequestParam Long customerKey, @RequestParam String accountNumber) {
+    PaymentsAnalysis result = new PaymentsAnalysis();
     result.setStatus(PaymentsAnalysisStatus.SUCCESS);
     result.setCustomerKey(customerKey);
     result.setAccountNumber(accountNumber);
     result.setCurrency("USD");
-    result.setMonthlyStats(getMonthlyStats(6, LocalDate.now().minusMonths(6)));
-    List<List<AmountPerDate>> dailyStats = new ArrayList<>();
-    dailyStats.add(getDailyStats(Month.JUNE, 30));
-    dailyStats.add(getDailyStats(Month.JULY, 31));
-    dailyStats.add(getDailyStats(Month.AUGUST, 31));
-    dailyStats.add(getDailyStats(Month.SEPTEMBER, 30));
-    dailyStats.add(getDailyStats(Month.OCTOBER, 31));
-    dailyStats.add(getDailyStats(Month.NOVEMBER, 30));
-    result.setDailyStats(dailyStats);
     result.setForecast(getMonthlyStats(6));
     return result;
   }

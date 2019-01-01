@@ -38,4 +38,9 @@ public class AccountController {
         AccountInfo.of("589423589", "USD", BigDecimal.valueOf(3254), BigDecimal.valueOf(43653), BigDecimal.valueOf(34523)));
   }
   
+  @GetMapping("/accounts/currencies")
+  public List<String> getAvailableCurrencies(@RequestParam String customerKey) {
+    return Arrays.asList("ZAR", "UGX", "USD");
+  }
+  
 }

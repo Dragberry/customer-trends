@@ -1,3 +1,5 @@
+import { AccountService } from './../../../services/account.service';
+import { PaymentsStatistics } from './../../../model/payments-statistics';
 import { Component } from '@angular/core';
 import { ForecastCommonComponent } from '../forecast-common.component';
 import { MessagesService } from 'src/app/services/messages.service';
@@ -9,12 +11,21 @@ import { PaymentsAnalysis } from 'src/app/model/payments-analysis';
   templateUrl: './forecast-for-month.component.html',
   styleUrls: ['./forecast-for-month.component.css']
 })
-export class ForecastForMonthComponent extends ForecastCommonComponent<PaymentsAnalysis> {
+export class ForecastForMonthComponent extends ForecastCommonComponent<PaymentsStatistics> {
+
+  expenseIn3Days: string;
+  expenseIn7Days: string;
+  expenseIn14Days: string;
 
   constructor(
+    protected accountService: AccountService,
     protected messageService: MessagesService,
     protected paymentsService: PaymentsService) {
-    super(messageService, paymentsService);
+    super(accountService, messageService, paymentsService);
+  }
+
+  callStatisticsService(criteria: {customerKey: string, currency: string}): Promise<PaymentsStatistics> {
+    return this.paymentsService.statistics(criteria.customerKey, criteria.currency);
   }
 
   callService(criteria: {customerKey: string, accountNumber: string}): Promise<PaymentsAnalysis> {
