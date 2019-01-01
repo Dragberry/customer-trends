@@ -35,11 +35,11 @@ public class PaymentsController {
   @GetMapping("/payments/statistics")
   public PaymentStatistics statistics(@RequestParam Long customerKey, @RequestParam String currency) {
   PaymentStatistics result = new PaymentStatistics();
-  result.setCustomerKey(customerKey);
-  result.setCurrency(currency);
-  result.setYearStats(getMonthlyStats(12));
-  result.setPreviousMonthStats(getDailyStats(Month.OCTOBER, 31));
-  result.setLastMonthStats(getDailyStats(Month.NOVEMBER, 30));
+    result.setCustomerKey(customerKey);
+    result.setCurrency(currency);
+    result.setYearStats(getMonthlyStats(12));
+    result.setPreviousMonthStats(getDailyStats(Month.OCTOBER, 31));
+    result.setLastMonthStats(getDailyStats(Month.NOVEMBER, 30));
     return result;
   }
 
